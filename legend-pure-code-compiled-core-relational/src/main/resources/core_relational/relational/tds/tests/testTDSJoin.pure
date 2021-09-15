@@ -1052,8 +1052,8 @@ function <<test.BeforePackage>> meta::relational::tests::tds::tdsJoin::alloy::cr
 function <<test.Test>> meta::relational::tests::tds::tdsJoin::alloy::testSimpleJoin():Boolean[1]
 {
 
-    meta::alloy::test::mayExecuteAlloyTest(
-       {clientVersion, serverVersion, host, port |
+    meta::legend::test::mayExecuteLegendTest(
+       {clientVersion, serverVersion, serializationKind, host, port |
 
    let result = execute(|testJoinTDS_Person.all()->project([#/testJoinTDS_Person/personID!personID#, #/testJoinTDS_Person/lastName!personName#, #/testJoinTDS_Person/employerID!eID#])
                ->join(testJoinTDS_Firm.all()->project([#/testJoinTDS_Firm/legalName!firmName#, #/testJoinTDS_Firm/firmID!fID#]), JoinType.INNER, {a,b|$a.getInteger('eID') == $b.getInteger('fID');}), testJoinTDSMappingTwoDatabase, twoDBRunTime(), meta::pure::router::extension::defaultRelationalExtensions());
@@ -1070,9 +1070,8 @@ function <<test.Test>> meta::relational::tests::tds::tdsJoin::alloy::testSimpleJ
 function <<test.Test>> meta::relational::tests::tds::tdsJoin::alloy::testSimpleJoinColumns():Boolean[1]
 {
 
-    meta::alloy::test::mayExecuteAlloyTest(
-
-       {clientVersion, serverVersion, host, port |
+    meta::legend::test::mayExecuteLegendTest(
+       {clientVersion, serverVersion, serializationKind, host, port |
 
    let result = execute(|testJoinTDS_Person.all()->project([#/testJoinTDS_Person/personID!personID#, #/testJoinTDS_Person/lastName!personName#, #/testJoinTDS_Person/employerID!eID#])
                ->join(testJoinTDS_Firm.all()->project([#/testJoinTDS_Firm/legalName!firmName#, #/testJoinTDS_Firm/firmID!fID#]), JoinType.INNER, ['eID'],['fID']), testJoinTDSMappingTwoDatabase, twoDBRunTime(), meta::pure::router::extension::defaultRelationalExtensions());
