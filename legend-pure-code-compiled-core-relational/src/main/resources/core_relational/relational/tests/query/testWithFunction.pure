@@ -335,7 +335,7 @@ function <<test.Test>> meta::relational::tests::query::function::round::testFilt
                       '10.67\n'+
                       '14.67\n'+
                       '15.0\n'+
-                      '12.67\n', $result.values->meta::csv::toCSV());
+                      '12.67\n', $result.values->meta::relational::tests::csv::toCSV());
    assertSameSQL('select round(((1.0 * "root".quantity) / 3), 2) as "roundedQuantity" from tradeTable as "root" where round(((1.0 * "root".quantity) / 3), 2) > 10', $result);
 }
 

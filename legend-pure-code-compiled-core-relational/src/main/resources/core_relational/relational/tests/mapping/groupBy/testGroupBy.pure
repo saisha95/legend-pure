@@ -18,7 +18,7 @@ import meta::pure::profiles::*;
 import meta::pure::runtime::*;
 import meta::relational::metamodel::execute::*;
 import meta::relational::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 
 import meta::relational::tests::mapping::groupBy::model::store::*;
 import meta::relational::tests::mapping::groupBy::model::domain::*;

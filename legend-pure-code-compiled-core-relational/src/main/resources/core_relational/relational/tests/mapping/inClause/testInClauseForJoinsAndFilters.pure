@@ -14,7 +14,7 @@
 
 ###Pure
 import meta::relational::tests::model::simple::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::functions::asserts::*;
 import meta::relational::mapping::*;
 import meta::pure::runtime::*;

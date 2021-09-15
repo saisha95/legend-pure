@@ -17,7 +17,7 @@ import meta::relational::mapping::*;
 import  meta::relational::tests::mapping::classMappingFilterWithInnerJoin::mapping::*;
 import meta::relational::tests::*;
 import meta::relational::tests::mapping::embedded::model::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::functions::asserts::*;
 
 function <<test.BeforePackage>> meta::relational::tests::mapping::classMappingFilterWithInnerJoin::setUp():Boolean[1]

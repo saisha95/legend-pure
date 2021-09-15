@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import meta::relational::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::tests::mapping::innerjoin::isolation::*;
 function <<test.BeforePackage>> meta::relational::tests::mapping::innerjoin::isolation::setUp():Any[*]
 {

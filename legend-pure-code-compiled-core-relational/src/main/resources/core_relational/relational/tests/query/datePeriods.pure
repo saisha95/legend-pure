@@ -20,7 +20,7 @@ import meta::relational::runtime::*;
 import meta::relational::metamodel::execute::*;
 import meta::pure::runtime::*;
 import meta::relational::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 
 // Alloy exclusion reason: 15. Variables types should be inferred Encoding doesn't currently support generics (issue if the variable if of type Path for example)
 function <<test.Test, test.ExcludeAlloy>> meta::relational::tests::groupBy::datePeriods::testGroupBy():Boolean[1]

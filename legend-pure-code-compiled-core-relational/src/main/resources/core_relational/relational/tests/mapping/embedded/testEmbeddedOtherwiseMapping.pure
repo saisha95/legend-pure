@@ -15,7 +15,7 @@
 ###Pure
 import meta::relational::functions::asserts::*;
 import meta::relational::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::tests::mapping::embedded::advanced::mapping::*;
 import meta::relational::tests::mapping::embedded::advanced::model::*;
 import meta::relational::tests::mapping::embedded::advanced::*;

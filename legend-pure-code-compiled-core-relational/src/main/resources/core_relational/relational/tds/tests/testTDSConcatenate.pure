@@ -14,7 +14,7 @@
 
 import meta::relational::metamodel::join::*;
 import meta::relational::functions::sqlstring::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::tests::model::simple::*;
 import meta::relational::mapping::*;
 import meta::relational::runtime::*;

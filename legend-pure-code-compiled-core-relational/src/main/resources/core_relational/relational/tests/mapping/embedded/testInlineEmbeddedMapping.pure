@@ -17,7 +17,7 @@
 import meta::pure::runtime::*;
 import meta::relational::runtime::*;
 import meta::relational::metamodel::execute::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::relational::mapping::*;
 
 import meta::relational::tests::mapping::embedded::advanced::model::*;

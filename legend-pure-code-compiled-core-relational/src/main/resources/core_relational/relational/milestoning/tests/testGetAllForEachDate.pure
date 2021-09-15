@@ -14,7 +14,7 @@
 
 ###Pure
 import meta::relational::functions::asserts::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::pure::runtime::*;
 import meta::relational::tests::milestoning::businessdate::*;
 import meta::relational::tests::*;

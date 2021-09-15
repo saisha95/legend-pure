@@ -611,13 +611,13 @@ function <<access.private>> meta::relational::testDataGeneration::getColumnSorte
 function <<access.private>> meta::relational::testDataGeneration::getResultCSV(data: ResultSet[1]):String[1]
 {
    $data.columnNames->joinStrings(',') + '\n' +
-   $data.rows->map(r | $r.values->map(v |$v->meta::csv::toCSVString()->replace('\'',' ')->replace(',',';'))->joinStrings(',')->replace('\n', ' '))->joinStrings('', '\n', '\n')->replace('SQLNull', '---null---')->replace('\n','\n');
+   $data.rows->map(r | $r.values->map(v |$v->meta::relational::tests::csv::toCSVString()->replace('\'',' ')->replace(',',';'))->joinStrings(',')->replace('\n', ' '))->joinStrings('', '\n', '\n')->replace('SQLNull', '---null---')->replace('\n','\n');
 }
 
 function <<access.private>> meta::relational::testDataGeneration::getResultCSVWithStringHashing(data: ResultSet[1]):String[1]
 {
    $data.columnNames->joinStrings(',') + '\n' +
-   $data.rows->map(r | $r.values->hashStrings()->map(v |$v->meta::csv::toCSVString()->replace('\'',' ')->replace(',',';'))->joinStrings(',')->replace('\n', ' '))->joinStrings('', '\n', '\n')->replace('SQLNull', '---null---')->replace('\n','\n');
+   $data.rows->map(r | $r.values->hashStrings()->map(v |$v->meta::relational::tests::csv::toCSVString()->replace('\'',' ')->replace(',',';'))->joinStrings(',')->replace('\n', ' '))->joinStrings('', '\n', '\n')->replace('SQLNull', '---null---')->replace('\n','\n');
 }
 
 function meta::relational::testDataGeneration::hashStrings(values: Any[*]):Any[*]

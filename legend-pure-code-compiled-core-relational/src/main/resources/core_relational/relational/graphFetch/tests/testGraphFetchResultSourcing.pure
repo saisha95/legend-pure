@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import meta::pure::runtime::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 import meta::pure::graphFetch::execution::*;
 import meta::pure::mapping::modelToModel::*;
 import meta::pure::executionPlan::profiles::*;

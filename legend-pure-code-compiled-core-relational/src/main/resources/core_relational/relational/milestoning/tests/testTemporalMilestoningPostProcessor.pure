@@ -26,7 +26,7 @@ import meta::relational::tests::milestoning::temporalpostprocessor::*;
 import meta::relational::milestoning::*;
 import meta::relational::metamodel::operation::*;
 import meta::relational::metamodel::*;
-import meta::csv::metamodel::execute::*;
+import meta::relational::tests::csv::metamodel::execute::*;
 import meta::relational::metamodel::relation::*;
 import meta::relational::runtime::*;
 import meta::relational::tests::model::simple::*;

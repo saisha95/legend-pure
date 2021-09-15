@@ -19,7 +19,7 @@ import meta::pure::profiles::*;
 import meta::pure::runtime::*;
 import meta::relational::metamodel::execute::*;
 import meta::relational::mapping::*;
-import meta::csv::*;
+import meta::relational::tests::csv::*;
 
 import meta::relational::tests::mapping::distinct::model::*;
 import meta::relational::tests::mapping::distinct::model::domain::*;
