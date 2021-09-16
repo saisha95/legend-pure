@@ -16,7 +16,7 @@ import meta::json::*;
 import meta::json::schema::*;
 import meta::json::schema::fromSchema::*;
 import meta::json::schema::generation::*;
-import meta::alloy::metadataServer::*;
+import meta::protocols::serialization::*;
 import meta::pure::metamodel::serialization::grammar::*;
 
 import meta::protocols::pure::vX_X_X::transformation::fromPureGraph::*;
@@ -175,11 +175,12 @@ function <<test.Test>> meta::json::schema::fromSchema::tests::openAPITest():Bool
 function    meta::json::schema::fromSchema::tests::toSerializer(packs:PackageableElement[*]):String[1]
 {
 
-   $packs->sortBy(p|$p.classifierGenericType.rawType.name->toOne())->map(p|$p->match([c:Class<Any>[1]|$c->transformClass(true, [])->alloyToJSON(),
-                                                                                      e:Enumeration<Any>[1] |$e->transformEnum() ->alloyToJSON(),
-                                                                                      f:FunctionDefinition<Any>[1] |  $f->transformFunction([])->alloyToJSON(),
-                                                                                      p:Profile[1]|$p->transformProfile([])->alloyToJSON()])) ->joinStrings(',\n\n')
-                                                                                      
+   $packs->sortBy(p|$p.classifierGenericType.rawType.name->toOne())->map(p|$p->match([c:Class<Any>[1]|$c->transformClass(true, [])->legendToJSON(),
+                                                                                      e:Enumeration<Any>[1] |$e->transformEnum() ->legendToJSON(),
+                                                                                      f:FunctionDefinition<Any>[1] |  $f->transformFunction([])->legendToJSON(),
+                                                                                      p:Profile[1]|$p->transformProfile([])->legendToJSON()])) ->joinStrings(',\n\n')
+
+
 }
 
 function <<access.private>> meta::json::schema::fromSchema::tests::propertyTests():String[1]

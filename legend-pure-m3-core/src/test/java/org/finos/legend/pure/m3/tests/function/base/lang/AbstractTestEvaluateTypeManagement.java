@@ -105,7 +105,7 @@ public abstract class AbstractTestEvaluateTypeManagement extends AbstractPureTes
                 "function meta::pure::router::execute<R|y>(f:FunctionDefinition<{->R[y]}>[1]):Result<R|y>[0..1]\n" +
                 "{\n" +
                 "   meta::legend::test::mayExecuteLegendTest(\n" +
-                "      {v, vv, host, port | let zz = 'alloyExecute_FunctionDefinition_1__String_1__Integer_1__Result_1_'->pathToElement()->cast(@FunctionDefinition<{->Any[*]}>);" +
+                "      {clientVersion, serverVersion, serializationKind, host, port | let zz = 'alloyExecute_FunctionDefinition_1__String_1__Integer_1__Result_1_'->pathToElement()->cast(@FunctionDefinition<{->Any[*]}>);" +
                 "                    $zz->evaluate([$f, $host, $port]->map(z|list($z)))->toOne()->cast(@Result<R|y>);},\n" +
                 "      {|^RoutingQuery<R|y>(fn=$f);[]->cast(@Result<R|y>);}\n" +
                 "   );\n" +

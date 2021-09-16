@@ -20,7 +20,7 @@ import meta::protocols::pure::v1_20_0::transformation::fromPureGraph::runtime::*
 import meta::pure::functions::io::http::*;
 import meta::pure::runtime::*;
 import meta::pure::mapping::*;
-import meta::alloy::metadataServer::*;
+import meta::protocols::serialization::*;
 import meta::json::*;
 import meta::protocols::pure::v1_20_0::invocation::execution::testDataGeneration::*;
 
@@ -118,7 +118,7 @@ function meta::protocols::pure::v1_20_0::invocation::execution::testDataGenerati
                   |$m->buildBasePureModelFromMapping($toOrigin, $extensions).second
                ),
       parameters = $parameters
-   )->alloyToJSON();
+   )->legendToJSON();
 
    let resp = executeHTTPRaw(^URL(host = $host , port=$port, path = '/api/pure/'+$version+'/execution/testDataGeneration/generateSeedData'),
                                  HTTPMethod.POST,
@@ -189,7 +189,7 @@ function meta::protocols::pure::v1_20_0::invocation::execution::testDataGenerati
                ),
       tableRowIdentifiers = $tableRowIdentifiers->map(x | $x->meta::protocols::pure::v1_20_0::transformation::fromPureGraph::testDataGeneration::transformTableRowIdentifiers()),
       hashStrings = $hashStrings
-   )->alloyToJSON();
+   )->legendToJSON();
 
    let resp = executeHTTPRaw(^URL(host = $host , port=$port, path = '/api/pure/'+$version+'/execution/testDataGeneration/generateTestData_WithSeed'),
                                  HTTPMethod.POST,
@@ -264,7 +264,7 @@ function meta::protocols::pure::v1_20_0::invocation::execution::testDataGenerati
                ),
       parameters = $parameters,
       hashStrings = $hashStrings
-   )->alloyToJSON();
+   )->legendToJSON();
 
    let resp = executeHTTPRaw(^URL(host = $host , port=$port, path = '/api/pure/'+$version+'/execution/testDataGeneration/generateTestData_WithDefaultSeed'),
                                  HTTPMethod.POST,

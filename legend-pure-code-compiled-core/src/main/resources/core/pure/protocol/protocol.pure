@@ -20,7 +20,7 @@ Class meta::protocols::Protocol
    version : String[1];
 }
 
-function meta::alloy::metadataServer::alloyToJSON(o:Any[1]):String[1]
+function meta::protocols::serialization::legendToJSON(o:Any[1]):String[1]
 {
    //$o->toJSON([], 1000, config(false, false, true, true));
    $o->toJsonBeta(^JSONSerializationConfig(typeKeyName='__TYPE', includeType=false, fullyQualifiedTypePath=false, serializeQualifiedProperties=false, serializePackageableElementName=false, removePropertiesWithEmptyValues=true));
