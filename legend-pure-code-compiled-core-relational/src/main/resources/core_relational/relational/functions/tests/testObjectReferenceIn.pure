@@ -28,7 +28,7 @@ import meta::pure::executionPlan::profiles::*;
 import meta::pure::executionPlan::toString::*;
 import meta::pure::executionPlan::*;
 import meta::pure::graphFetch::execution::*;
-import meta::alloy::objectReference::*;
+import meta::pure::objectReference::*;
 import meta::pure::mapping::modelToModel::test::shared::src::*;
 import meta::relational::metamodel::execute::*;
 import meta::relational::functions::toDDL::*;
@@ -310,7 +310,7 @@ function <<meta::pure::profiles::test.Test, meta::pure::profiles::test.AlloyOnly
       $result.values
    );
    
-   let objReferences = $result.values->parseJSON()->cast(@JSONArray).values->map(je | meta::alloy::objectReference::decodeObjectReferencesAndGetPkMap('vX_X_X', $je->cast(@JSONObject)->getValue('objectReference')->cast(@JSONString).value->toOne(), meta::pure::router::extension::defaultRelationalExtensions()))->joinStrings('[',',',']');
+   let objReferences = $result.values->parseJSON()->cast(@JSONArray).values->map(je | meta::pure::objectReference::decodeObjectReferencesAndGetPkMap('vX_X_X', $je->cast(@JSONObject)->getValue('objectReference')->cast(@JSONString).value->toOne(), meta::pure::router::extension::defaultRelationalExtensions()))->joinStrings('[',',',']');
 
    assertJsonStringsEqual('[{"pathToMapping":"meta::pure::mapping::modelToModel::test::shared::relationalMapping","pkMap":{"name":"A"},"setId":"meta_pure_mapping_modelToModel_test_shared_src__Firm"},{"pathToMapping":"meta::pure::mapping::modelToModel::test::shared::relationalMapping","pkMap":{"name":"B"},"setId":"meta_pure_mapping_modelToModel_test_shared_src__Firm"},{"pathToMapping":"meta::pure::mapping::modelToModel::test::shared::relationalMapping","pkMap":{"name":"C"},"setId":"meta_pure_mapping_modelToModel_test_shared_src__Firm"}]', $objReferences);
 }

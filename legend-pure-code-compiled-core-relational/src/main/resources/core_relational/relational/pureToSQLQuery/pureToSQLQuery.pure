@@ -14,7 +14,7 @@
 
 import meta::pure::executionPlan::*;
 import meta::pure::router::extension::*;
-import meta::alloy::objectReference::*;
+import meta::pure::objectReference::*;
 import meta::relational::runtime::*;
 import meta::relational::functions::pureToSqlQuery::union::*;
 import meta::relational::functions::pureToSqlQuery::*;

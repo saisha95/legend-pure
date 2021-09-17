@@ -187,7 +187,7 @@ function meta::protocols::pure::vX_X_X::invocation::execution::execute::generate
 
 function meta::protocols::pure::vX_X_X::invocation::execution::execute::decodeAndParseAlloyObjectReference(ref : String[1]):meta::protocols::pure::vX_X_X::metamodel::objectReference::AlloyObjectReference[1]
 {
-   let parsedObjectRef = meta::alloy::objectReference::decodeAndParseAlloyObjectReference($ref);
+   let parsedObjectRef = meta::pure::objectReference::decodeAndParseAlloyObjectReference($ref);
    let type            = $parsedObjectRef->get('type')->cast(@String)->toOne();
    
    if($type->toLower() == 'relational',

@@ -14,11 +14,11 @@
 
 import meta::json::*;
 import meta::relational::mapping::*;
-import meta::alloy::objectReference::*;
+import meta::pure::objectReference::*;
 import meta::pure::runtime::*;
 import meta::pure::mapping::*;
 
-function meta::alloy::objectReference::decodeObjectReferencesAndGetPkMap(clientVersion:String[1], encodedObjectReferences : String[1], extensions:meta::pure::router::extension::RouterExtension[*]):String[1]
+function meta::pure::objectReference::decodeObjectReferencesAndGetPkMap(clientVersion:String[1], encodedObjectReferences : String[1], extensions:meta::pure::router::extension::RouterExtension[*]):String[1]
 {
    let versionedFuncString = 'meta::protocols::pure::'+$clientVersion+'::invocation::execution::execute::getAlloyObjectReferenceAsMap_String_1__Map_1_';
    let versionedFunc       = $versionedFuncString->pathToElement()->cast(@Function<{String[1]->Map<String, Any>[1]}>);
@@ -29,7 +29,7 @@ function meta::alloy::objectReference::decodeObjectReferencesAndGetPkMap(clientV
                     $parsedObjectRef->getPkMapFromObjectReference($extensions);)->toJSON();
 }
 
-function <<access.private>> meta::alloy::objectReference::getPkMapFromObjectReference(parsedObjectRef : Map<String, Any>[1], extensions:meta::pure::router::extension::RouterExtension[*]):Map<String, Any>[1]
+function <<access.private>> meta::pure::objectReference::getPkMapFromObjectReference(parsedObjectRef : Map<String, Any>[1], extensions:meta::pure::router::extension::RouterExtension[*]):Map<String, Any>[1]
 {
    let pathToMapping           = $parsedObjectRef->get('pathToMapping')->cast(@String)->toOne();
    let orgPkMap                = $parsedObjectRef->get('pkMap')->cast(@Map<String, Any>)->toOne();
@@ -51,7 +51,7 @@ function <<access.private>> meta::alloy::objectReference::getPkMapFromObjectRefe
 }
 
 //TODO: move this function to core module and access relational specific logic via extensions
-function meta::alloy::objectReference::decodeAndParseAlloyObjectReference(ref : String[1]):Map<String, Any>[1]
+function meta::pure::objectReference::decodeAndParseAlloyObjectReference(ref : String[1]):Map<String, Any>[1]
 {
    assert($ref->substring(0, 4) == 'ASOR', | 'Encoded Object Reference should start with "ASOR"');
    let decodedRef = $ref->substring(5)->decodeBase64();
@@ -63,7 +63,7 @@ function meta::alloy::objectReference::decodeAndParseAlloyObjectReference(ref : 
    );
 }
 
-function meta::alloy::objectReference::parseAlloyObjectReferenceV1(ref : String[1]):Map<String, Any>[1]
+function meta::pure::objectReference::parseAlloyObjectReferenceV1(ref : String[1]):Map<String, Any>[1]
 {
    let lengthStringSize = $ref->substring(0, 3)->parseInteger();
 
@@ -77,7 +77,7 @@ function meta::alloy::objectReference::parseAlloyObjectReferenceV1(ref : String[
       |fail('Not Supported Yet!!'); []->newMap(););
 }
 
-function meta::alloy::objectReference::parseAlloyRelationalStoreObjectReferenceV1(ref : String[1], lengthStringSize:Integer[1], type:String[1]):Map<String, Any>[1]
+function meta::pure::objectReference::parseAlloyRelationalStoreObjectReferenceV1(ref : String[1], lengthStringSize:Integer[1], type:String[1]):Map<String, Any>[1]
 {
    let mappingStart = $lengthStringSize + 1;
    let mappingStringLength = $ref->substring(0, $mappingStart - 1)->parseInteger();
