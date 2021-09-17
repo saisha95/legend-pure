@@ -1085,7 +1085,7 @@ function meta::external::language::java::transform::defaultProhibitedFunctions(e
       compileValueSpecification_String_m__CompilationResult_m_,
       deactivate_Any_MANY__ValueSpecification_1_,
       evaluateAndDeactivate_T_m__T_m_,
-      meta::alloy::test::mayExecuteAlloyTest_Function_1__Function_1__X_k_,
+      //meta::alloy::test::mayExecuteAlloyTest_Function_1__Function_1__X_k_,
       meta::legend::test::mayExecuteLegendTest_Function_1__Function_1__X_k_,
 
       // Evaluation

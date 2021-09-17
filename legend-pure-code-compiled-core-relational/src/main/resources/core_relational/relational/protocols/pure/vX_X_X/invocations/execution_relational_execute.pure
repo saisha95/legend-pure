@@ -27,7 +27,7 @@ import meta::pure::functions::io::http::*;
 import meta::pure::runtime::*;
 import meta::pure::mapping::*;
 import meta::pure::milestoning::*;
-import meta::protocols::serialization::*;
+import meta::protocols::tools::*;
 import meta::relational::milestoning::*;
 import meta::relational::mapping::*;
 

@@ -303,7 +303,7 @@ function <<access.private>> meta::pure::lineage::scanProperties::internal_scanPr
 
 function <<access.private>> meta::pure::lineage::scanProperties::shouldBeProcessed(f:Function<Any>[1], processed:Function<Any>[*]):Boolean[1]
 {
-   let pkgOk = !$f->isWithinPackage(meta) || $f->meta::alloy::isMetaAlloyTestDependency() || $f->isWithinPackage(meta::pure::lineage::scanProperties::test);
+   let pkgOk = !$f->isWithinPackage(meta) || $f->meta::protocols::tools::isMetaAlloyTestDependency() || $f->isWithinPackage(meta::pure::lineage::scanProperties::test);
    $pkgOk && !$processed->contains($f);
 }
 

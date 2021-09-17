@@ -73,7 +73,7 @@ function <<access.private>> meta::protocols::pure::v1_20_0::transformation::from
          lf :LambdaFunction<Any>[1] | $lf.expressionSequence->evaluateAndDeactivate()->map(e|$e->scan($visited)),
          v:VariableExpression[1]    | [],
          {cfd:ConcreteFunctionDefinition<Any>[1]|
-            if ($cfd->in($visited) || ($cfd->elementToPath()->startsWith('meta::') && not($cfd->meta::alloy::isMetaAlloyTestDependency())),
+            if ($cfd->in($visited) || ($cfd->elementToPath()->startsWith('meta::') && not($cfd->meta::protocols::tools::isMetaAlloyTestDependency())),
                 | [],
                 | let newVisited = $visited->concatenate($cfd);
                   $cfd.expressionSequence->evaluateAndDeactivate()->map(e|$e->scan($newVisited));
@@ -82,7 +82,7 @@ function <<access.private>> meta::protocols::pure::v1_20_0::transformation::from
          a: Any[1] | $a
 
       ]
-   )->map(a | $a->match($matchClass))->filter(c|$c->meta::alloy::isMetaAlloyTestDependency() || !$c->elementToPath()->startsWith('meta::'));
+   )->map(a | $a->match($matchClass))->filter(c|$c->meta::protocols::tools::isMetaAlloyTestDependency() || !$c->elementToPath()->startsWith('meta::'));
 }
 
 function <<access.private>> meta::protocols::pure::v1_20_0::transformation::fromPureGraph::excludeTypes(types:Type[*], validPackages:String[*]):Type[*]

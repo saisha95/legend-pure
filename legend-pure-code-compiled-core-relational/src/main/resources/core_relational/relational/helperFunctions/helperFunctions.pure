@@ -83,7 +83,7 @@ function meta::relational::functions::database::setUpData(t:String[1], mapping:M
 
    let database = if ($databases->size() == 1, | $databases->at(0), | ^Database(name='Default_CatchAll', includes = $databases));
 
-   meta::alloy::service::execution::setUpDataSQLs($t, $database);
+   meta::relational::functions::database::setUpDataSQLs($t, $database);
 }
 
 
@@ -93,30 +93,30 @@ function meta::relational::functions::database::setUpData(t:String[1], mapping:M
 
    let database = if ($databases->size() == 1, | $databases->at(0), | ^Database(name='Default_CatchAll', includes = $databases));
 
-   meta::alloy::service::execution::setUpDataSQLs($t, $database);
+   meta::relational::functions::database::setUpDataSQLs($t, $database);
 }
 
 // This function is needed because split does not preserve empty strings
 // We work around by inserting a non-empty value, doing a split, and then removing the non-empty value
-function <<access.private>> meta::alloy::service::execution::splitWithEmptyValue(s:String[1]) : String[*]
+function <<access.private>> meta::relational::functions::database::splitWithEmptyValue(s:String[1]) : String[*]
 {
    let delimForEmptyCsvField = '|EMPTY|';
 
-   $s->meta::alloy::service::execution::replaceWithEmptyValue($delimForEmptyCsvField)
+   $s->meta::relational::functions::database::replaceWithEmptyValue($delimForEmptyCsvField)
         ->split(',')
         ->map(csv_val| if($csv_val == $delimForEmptyCsvField, | '' ,| $csv_val));
 }
 
-function <<access.private>> meta::alloy::service::execution::replaceWithEmptyValue(s:String[1], delimForEmptyCsvField: String[1]) : String[1]
+function <<access.private>> meta::relational::functions::database::replaceWithEmptyValue(s:String[1], delimForEmptyCsvField: String[1]) : String[1]
 {
    let news = if($s->endsWith(','), | $s + $delimForEmptyCsvField, |$s);
 
    let replaced = $news->replace(',,', ','+$delimForEmptyCsvField+',');
 
-   if ($replaced->contains(',,'), | meta::alloy::service::execution::replaceWithEmptyValue($replaced, $delimForEmptyCsvField), | $replaced);
+   if ($replaced->contains(',,'), | meta::relational::functions::database::replaceWithEmptyValue($replaced, $delimForEmptyCsvField), | $replaced);
 }
 
-function meta::alloy::service::execution::setUpDataSQLs(data:String[1], db:Database[1]) : String[*]
+function meta::relational::functions::database::setUpDataSQLs(data:String[1], db:Database[1]) : String[*]
 {
    let allSchemas = $db->allSchemas();
 
@@ -137,7 +137,7 @@ function meta::alloy::service::execution::setUpDataSQLs(data:String[1], db:Datab
    });
 
    let formattedData = $data->split('\n')
-                            ->map(l|list($l->meta::alloy::service::execution::splitWithEmptyValue()))
+                            ->map(l|list($l->meta::relational::functions::database::splitWithEmptyValue()))
                             ->concatenate(list(''));
 
    $schemaSetup->concatenate($tableSetup)->concatenate(loadCsvDataToDbTable($formattedData, $db, t:Table[1]|$t));

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import meta::pure::mapping::*;
-import meta::protocols::serialization::*;
+import meta::protocols::tools::*;
 import meta::protocols::pure::v1_19_0::transformation::fromPureGraph::*;
 import meta::protocols::pure::v1_19_0::transformation::fromPureGraph::runtime::*;
 import meta::pure::functions::io::http::*;

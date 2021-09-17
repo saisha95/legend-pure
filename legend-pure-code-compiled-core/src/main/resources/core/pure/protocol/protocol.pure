@@ -20,8 +20,21 @@ Class meta::protocols::Protocol
    version : String[1];
 }
 
-function meta::protocols::serialization::legendToJSON(o:Any[1]):String[1]
+function meta::protocols::tools::legendToJSON(o:Any[1]):String[1]
 {
    //$o->toJSON([], 1000, config(false, false, true, true));
    $o->toJsonBeta(^JSONSerializationConfig(typeKeyName='__TYPE', includeType=false, fullyQualifiedTypePath=false, serializeQualifiedProperties=false, serializePackageableElementName=false, removePropertiesWithEmptyValues=true));
+}
+
+function meta::protocols::tools::isMetaAlloyTestDependency(pe:PackageableElement[1]):Boolean[1]
+{
+   let path = $pe->elementToPath();
+   //TOFIX: use packages instead of STRINGS
+   $path->startsWith('meta::relational::tests') ||  $path->startsWith('meta::pure::mapping::modelToModel::test::alloy'); //isWithinPackage(meta::relational::tests) || $pe->isWithinPackage(meta::pure::mapping::modelToModel::test::alloy);
+}
+
+function meta::protocols::tools::isMetaAlloyTestDependencyForGeneration(pe:PackageableElement[1]):Boolean[1]
+{
+   let path = $pe->elementToPath();
+   $path->startsWith('meta::json::schema::fromSchema::tests') ||  $path->startsWith('meta::json::schema::tests');
 }

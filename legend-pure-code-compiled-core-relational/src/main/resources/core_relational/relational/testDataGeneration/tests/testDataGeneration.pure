@@ -1744,15 +1744,15 @@ function <<access.private>> meta::relational::testDataGeneration::tests::assertS
 
 function meta::relational::testDataGeneration::tests::assertTestData(s1 : String[1], s2 : String[1], db: Database[1]):Boolean[1]
 {
-   let setUpSQLs1 = meta::alloy::service::execution::setUpDataSQLs($s1, $db);
-   let setUpSQLs2 = meta::alloy::service::execution::setUpDataSQLs($s2, $db);
+   let setUpSQLs1 = meta::relational::functions::database::setUpDataSQLs($s1, $db);
+   let setUpSQLs2 = meta::relational::functions::database::setUpDataSQLs($s2, $db);
    assertSameElements($setUpSQLs1, $setUpSQLs2);
 }
 
 function <<access.private>> meta::relational::testDataGeneration::tests::loadAndTestExecution(query: FunctionDefinition<Any>[1], parametersValues:Any[*], mapping: meta::pure::mapping::Mapping[1], runtime: Runtime[1], data:String[1], db: Database[1]):Boolean[1]
 {
    let testConnection = $runtime.connections->toOne()->cast(@TestDatabaseConnection);
-   let setUpSQLs = meta::alloy::service::execution::setUpDataSQLs($data, $db);
+   let setUpSQLs = meta::relational::functions::database::setUpDataSQLs($data, $db);
    $setUpSQLs->map(sql | executeInDb($sql, $testConnection));
    let plan = executionPlan($query, $mapping, $runtime, meta::pure::router::extension::defaultRelationalExtensions());
    let result = $plan->execute($parametersValues, meta::pure::router::extension::defaultRelationalExtensions());

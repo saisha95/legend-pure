@@ -744,7 +744,7 @@ function <<access.private>> meta::json::schema::allFunctionElements(any:Any[1], 
 
          if($sfe.func->in($seen) || $sfe.func->instanceOf(Property),
             | [],
-            |  let newElements = if($sfe.func->isWithinPackage(meta) &&!$sfe.func->meta::alloy::isMetaAlloyTestDependencyForGeneration(),|[];,|$sfe.func);
+            |  let newElements = if($sfe.func->isWithinPackage(meta) &&!$sfe.func->meta::protocols::tools::isMetaAlloyTestDependencyForGeneration(),|[];,|$sfe.func);
                $newElements->concatenate($sfe.parametersValues->evaluateAndDeactivate()->map(p| $p->allFunctionElements($seen->concatenate($newElements),$config);));
          );
       },

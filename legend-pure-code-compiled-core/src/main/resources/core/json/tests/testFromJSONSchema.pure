@@ -16,7 +16,7 @@ import meta::json::*;
 import meta::json::schema::*;
 import meta::json::schema::fromSchema::*;
 import meta::json::schema::generation::*;
-import meta::protocols::serialization::*;
+import meta::protocols::tools::*;
 import meta::pure::metamodel::serialization::grammar::*;
 
 import meta::protocols::pure::vX_X_X::transformation::fromPureGraph::*;

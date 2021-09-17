@@ -273,7 +273,7 @@ function <<access.private>> meta::pure::router::extension::relationalExtension(t
                               ^$t(testDataSetupSqls = if ($t.testDataSetupCsv->isEmpty() || !$t.element->instanceOf(meta::relational::metamodel::Database),
                                                  | [];,
                                                  | if ($t.testDataSetupSqls->isEmpty(),
-                                                       | $t.testDataSetupCsv->toOne()->meta::alloy::service::execution::setUpDataSQLs($t.element->cast(@meta::relational::metamodel::Database)),
+                                                       | $t.testDataSetupCsv->toOne()->meta::relational::functions::database::setUpDataSQLs($t.element->cast(@meta::relational::metamodel::Database)),
                                                        | $t.testDataSetupSqls))),
                         r:meta::pure::alloy::connections::RelationalDatabaseConnection[1] |
                               ^$r(
@@ -285,7 +285,7 @@ function <<access.private>> meta::pure::router::extension::relationalExtension(t
                                                 $l.testDataSetupSqls->concatenate(
                                                     if ($l.testDataSetupCsv->isEmpty() || !$r.element->instanceOf(meta::relational::metamodel::Database),
                                                         | [];,
-                                                        | $l.testDataSetupCsv->toOne()->meta::alloy::service::execution::setUpDataSQLs($r.element->cast(@meta::relational::metamodel::Database))
+                                                        | $l.testDataSetupCsv->toOne()->meta::relational::functions::database::setUpDataSQLs($r.element->cast(@meta::relational::metamodel::Database))
                                                     )
                                                  )
                                        ),
