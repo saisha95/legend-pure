@@ -61,9 +61,9 @@ function meta::relational::tests::mapping::enumeration::createTablesAndFillDb():
 
     executeInDb('insert into Product (id, prod_desc) values (1, \'My Product\')', $connection);
     executeInDb('insert into Product (id, prod_desc) values (2, \'My Product 2\')', $connection);
-    executeInDb('insert into Product_Synonym (id, product_id, type, value) values (11, 1, \'CUS\',  \'9UF81235F\')', $connection);
-    executeInDb('insert into Product_Synonym (id, product_id, type, value) values (12, 2, \'CUS\',  \'9UPZX235F\')', $connection);
-    executeInDb('insert into Product_Synonym (id, product_id, type, value) values (13, 1, \'GSN\',  \'987123\')', $connection);
+    executeInDb('insert into Product_Synonym (id, product_id, type, "value") values (11, 1, \'CUS\',  \'9UF81235F\')', $connection);
+    executeInDb('insert into Product_Synonym (id, product_id, type, "value") values (12, 2, \'CUS\',  \'9UPZX235F\')', $connection);
+    executeInDb('insert into Product_Synonym (id, product_id, type, "value") values (13, 1, \'GSN\',  \'987123\')', $connection);
 
     
    true;

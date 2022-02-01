@@ -248,15 +248,17 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::getLi
                       | getLiteralProcessorsForSybaseIQ($dbTimeZone),
                       | if($dbType == DatabaseType.Sybase,
                            | getLiteralProcessorsForSybaseASE($dbTimeZone),
-                            | if ($dbType == DatabaseType.Postgres,
-                            | getLiteralProcessorsForPostgres($dbTimeZone),
-                            | if ($dbType == DatabaseType.Presto,
+                           | if ($dbType == DatabaseType.Postgres,
+                              | getLiteralProcessorsForPostgres($dbTimeZone),
+                              | if ($dbType == DatabaseType.Presto,
                                  | getLiteralProcessorsForPresto($dbTimeZone),
                                  | if($dbType == DatabaseType.BigQuery,
-                                  | getLiteralProcessorsForBigQuery($dbTimeZone),
+                                    | getLiteralProcessorsForBigQuery($dbTimeZone),
                                     | if($dbType == DatabaseType.Redshift,
-                                    | getLiteralProcessorsForRedshift($dbTimeZone),
-                                  | newMap([]->cast(@Pair<Type, LiteralProcessor>))
+                                      | getLiteralProcessorsForRedshift($dbTimeZone),
+                                      | if($dbType == DatabaseType.H2,
+                                          |getLiteralProcessorsForH2($dbTimeZone),
+                                          |newMap([]->cast(@Pair<Type, LiteralProcessor>)))
                              ))))));
 
 
@@ -268,6 +270,12 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::getLi
    let varPlaceHolderProcessor = pair(VarPlaceHolder, ^LiteralProcessor(format = '%s',     transform = {v:VarPlaceHolder[1] | convertPlaceHolderToSQLString($v, $processors, $dbTimeZone)}));
 
    $processors->putAll($varPlaceHolderProcessor);
+}
+function <<access.private>> meta::relational::functions::sqlQueryToString::getLiteralProcessorsForH2(dbTimeZone:String[0..1]):Map<Type,LiteralProcessor>[1]
+{
+   newMap([
+       pair(Boolean,        ^LiteralProcessor(format = '%s', transform = toString_Any_1__String_1_))
+  ])
 }
 
 function <<access.private>> meta::relational::functions::sqlQueryToString::getLiteralProcessorsForSybaseASE(dbTimeZone:String[0..1]):Map<Type,LiteralProcessor>[1]
@@ -292,7 +300,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::getLi
 {
    newMap([
       pair(Enum,           ^LiteralProcessor(format = 'Text%s',          transform = toString_Any_1__String_1_)),
-      pair(String,         ^LiteralProcessor(format = 'Text\'%s\'',          transform = convertStringToSQLString_String_1__String_1_)),
+      pair(String,         ^LiteralProcessor(format = 'Text\'%s\'',      transform = convertStringToSQLString_String_1__String_1_)),
       pair(Boolean,        ^LiteralProcessor(format = 'Boolean\'%s\'',   transform = toString_Any_1__String_1_)),
       pair(StrictDate,     ^LiteralProcessor(format = 'Date\'%s\'',      transform = {d:StrictDate[1] | $d->convertDateToSqlString($dbTimeZone)})),
       pair(DateTime,       ^LiteralProcessor(format = 'Timestamp\'%s\'', transform = {d:DateTime[1] | $d->convertDateToSqlString($dbTimeZone)})),
@@ -1340,7 +1348,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::getDy
                                                  choice(DatabaseType.H2,           $allStates,            ^ToSql(format='parsedatetime(%s,%s)')),
                                                  choice(DatabaseType.Presto,       $allStates,            ^ToSql(format='date_parse(%s,%s)'))]),
       forDynafunction('parseDecimal',          [ choice($aSybase,                  $allStates,            ^ToSql(format='cast(%s as decimal)')),
-                                                 choice(DatabaseType.H2,           $allStates,            ^ToSql(format='cast(%s as decimal)')),
+                                                 choice(DatabaseType.H2,           $allStates,            ^ToSql(format='cast(%s as NUMERIC(20,10))')),
                                                  choice(DatabaseType.Redshift,     $allStates,            ^ToSql(format='cast(%s as decimal)')),
                                                  choice(DatabaseType.BigQuery,     $allStates,            ^ToSql(format='cast(%s as decimal)'))]),
       forDynafunction('parseFloat',            [ choice($aSybase,                  $allStates,            ^ToSql(format='cast(%s as float)')),
@@ -1746,8 +1754,8 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::h2Res
 {  
    [
       'all','array','case','check','constraint','cross','current_date','current_time','current_timestamp','current_user','distinct','except','exists','false','fetch','for','foreign','from',
-      'full','group','having','if','inner','intersect','intersects','interval','is','join','like','limit','localtime','localtimestamp','minus','natural','not','null','offset','on','order','primary',
-      'qualify','row','rownum','select','sysdate','systime','systimestamp','table','today','top','true','union','unique','values','where','window','with'
+      'full','group','having','if','inner','intersect','intersects','interval','is','join', 'key', 'like','limit','localtime','localtimestamp','minus','natural','not','null','offset','on','order','primary',
+      'qualify','row','rownum','select','sysdate','systime','systimestamp','table','today','top','true','union','unique', 'value', 'values','where','window','with'
    ];
 }
 
@@ -2245,7 +2253,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::conve
 
 function meta::relational::functions::sqlQueryToString::normalizeH2DateFormat(params:String[1]):String[1]
 {
-   [pair('YYYY', 'yyyy'), pair('DD', 'dd')]->fold({e, a| $a->replace($e.first,$e.second)}, $params);
+   [pair('YYYY', 'yyyy'), pair('DD', 'dd')]->fold({e, a| $a->replace($e.first, $e.second)}, $params);
 
 }
 
@@ -2265,7 +2273,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::conve
 {
    $params->convertDateTimeFunctionHasCorrectParams();
    let dateTimeFormat = if( $params->size() == 1,|'\'yyyy-MM-dd hh:mm:ss[.nnnnnnnnn]\'',| $params->at(1););
-   'parseDateTime('+$params->at(0)+','+$dateTimeFormat +')';
+   'parseDateTime('+$params->at(0)+', '+$dateTimeFormat+')';
 }
 
 function <<access.private>> meta::relational::functions::sqlQueryToString::convertToDateTimePresto(params:String[*]):String[1]
@@ -2368,6 +2376,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::dateT
 {
    newMap([pair('yyyy-mm-dd hh:mi:ss',120),
            pair('yyyy-MM-dd hh:mm:ss',120),
+           pair('yyyy-MM-dd HH:mm:ss.SSS z',121),
            pair('yyyy-MM-dd hh:mm:ss.mmm',121)]);
 }
 

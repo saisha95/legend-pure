@@ -657,7 +657,7 @@ Mapping meta::relational::tests::simpleRelationalMapping
                     time : [db]interactionTable.time,
                     source : [db]@Interaction_Source,
                     target : [db]@Interaction_Target,
-                    active : case(equal([db]interactionTable.active,'Y'), 'true', 'false'),
+                    active : case(equal([db]interactionTable.active,'Y'), equal(1,1), equal(1,0)),
                     longestInteractionBetweenSourceAndTarget : [db]@InteractionTable_InteractionViewMaxTime | interactionViewMaxTime.maxTime
                  }
 )

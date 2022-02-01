@@ -127,7 +127,7 @@ function <<access.private>> meta::relational::functions::toDDL::createTableState
       + $t.columns->cast(@meta::relational::metamodel::Column)
          ->map(c | $c.name->meta::relational::functions::sqlQueryToString::processColumnName($dbConfig) + ' ' + meta::relational::metamodel::datatype::dataTypeToSqlText($c.type) + if($c.nullable->isEmpty() || $applyConstraints == false, | '', | if($c.nullable == true , | ' NULL', | ' NOT NULL' )))
         ->joinStrings(',')
-      + if ($t.primaryKey->isEmpty() || $applyConstraints == false, | '', | ', PRIMARY KEY(' + $t.primaryKey->map(c | $c.name)->joinStrings(',') + ')')
+      + if ($t.primaryKey->isEmpty() || $applyConstraints == false, | '', | ', PRIMARY KEY(' + $t.primaryKey->map(c | $c.name->meta::relational::functions::sqlQueryToString::processColumnName($dbConfig))->joinStrings(',') + ')')
       +');';
 }
 

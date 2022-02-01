@@ -18,6 +18,8 @@ import org.finos.legend.pure.m3.AbstractPureTestWithCoreCompiled;
 import org.finos.legend.pure.m3.exception.PureExecutionException;
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 public abstract class AbstractTestPureDBFunction extends AbstractPureTestWithCoreCompiled
 {
     @Test
@@ -44,8 +46,8 @@ public abstract class AbstractTestPureDBFunction extends AbstractPureTestWithCor
         }
         catch (PureExecutionException ex)
         {
-            assertPureException(PureExecutionException.class, "Error executing sql query; SQL reason: Syntax error in SQL statement \"CREATE LOCAL TEMPORARY TABLE ([*]COL INT) \"; expected \"identifier\"; SQL statement:\n" +
-                    "Create LOCAL TEMPORARY TABLE (col INT) [42001-197]; SQL error code: 42001; SQL state: 42001", 8, 4, ex);
+            assertPureException(PureExecutionException.class, Pattern.compile("^Error executing sql query; SQL reason: Syntax error in SQL statement \"CREATE LOCAL TEMPORARY TABLE \\(\\[\\*\\]COL INT\\) \"; expected \"identifier\"; SQL statement:\n"+
+                    "Create LOCAL TEMPORARY TABLE \\(col INT\\) \\[.*"), 8, 4, ex);
         }
     }
 
@@ -71,8 +73,8 @@ public abstract class AbstractTestPureDBFunction extends AbstractPureTestWithCor
         }
         catch (PureExecutionException ex)
         {
-            this.assertPureException(PureExecutionException.class, "Error executing sql query; SQL reason: Table \"TT\" not found; SQL statement:\n" +
-                    "drop table tt [42102-197]; SQL error code: 42102; SQL state: 42S02", 8, 4, ex);
+            this.assertPureException(PureExecutionException.class, Pattern.compile("^Error executing sql query; SQL reason: Table \"TT\" not found; SQL statement:\n" +
+                    "drop table tt \\[.*"), 8, 4, ex);
         }
     }
 
@@ -98,8 +100,8 @@ public abstract class AbstractTestPureDBFunction extends AbstractPureTestWithCor
         }
         catch (PureExecutionException ex)
         {
-            this.assertPureException(PureExecutionException.class, "Error executing sql query; SQL reason: Table \"TT\" not found; SQL statement:\n" +
-                    "select * from tt [42102-197]; SQL error code: 42102; SQL state: 42S02", 8, 4, ex);
+            this.assertPureException(PureExecutionException.class, Pattern.compile("^Error executing sql query; SQL reason: Table \"TT\" not found.*; SQL statement:\n" +
+                    "select \\* from tt \\[.*"), 8, 4, ex);
         }
     }
 }

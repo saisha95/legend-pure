@@ -196,7 +196,7 @@ Database meta::relational::tests::mapping::dataType::model::store::myDB
         int INTEGER,
         bi BIGINT,
         vc VARCHAR(200),
-        c CHAR(2),
+        c CHAR(1),
         date DATE,
         ts TIMESTAMP,
         f FLOAT,
