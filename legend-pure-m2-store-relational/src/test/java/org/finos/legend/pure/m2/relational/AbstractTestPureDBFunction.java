@@ -46,8 +46,8 @@ public abstract class AbstractTestPureDBFunction extends AbstractPureTestWithCor
         }
         catch (PureExecutionException ex)
         {
-            assertPureException(PureExecutionException.class, Pattern.compile("^Error executing sql query; SQL reason: Syntax error in SQL statement \"CREATE LOCAL TEMPORARY TABLE \\(\\[\\*\\]COL INT\\) \"; expected \"identifier\"; SQL statement:\n"+
-                    "Create LOCAL TEMPORARY TABLE \\(col INT\\) \\[.*"), 8, 4, ex);
+            assertPureException(PureExecutionException.class, Pattern.compile("^Error executing sql query; SQL reason: Syntax error in SQL statement \"CREATE LOCAL TEMPORARY TABLE.*\"; expected \"identifier\"; SQL statement:\n"+
+                    "Create LOCAL TEMPORARY TABLE.*", Pattern.CASE_INSENSITIVE), 8, 4, ex);
         }
     }
 
