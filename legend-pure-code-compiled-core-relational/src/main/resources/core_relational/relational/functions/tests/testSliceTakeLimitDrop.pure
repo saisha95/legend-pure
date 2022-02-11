@@ -157,10 +157,10 @@ function <<test.Test>> meta::relational::tests::query::take::testDropLimitByVend
 function <<test.Test>> meta::relational::tests::query::drop::testSimpleDrop():Boolean[1]
 {
    let result = execute(|Person.all()->drop(0), simpleRelationalMapping, testRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "pk_0", "root".FIRSTNAME as "firstName", "root".AGE as "age", "root".LASTNAME as "lastName" from personTable as "root" limit 0,-1', $result->sqlRemoveFormatting());
-   assertSize($result.values, 12 );
+   assertEquals('select "root".ID as "pk_0", "root".FIRSTNAME as "firstName", "root".AGE as "age", "root".LASTNAME as "lastName" from personTable as "root" limit 0,2147483647', $result->sqlRemoveFormatting());
+   assertSize($result.values, 7 );
 
    let result2 = execute(|Person.all()->drop(1), simpleRelationalMapping, testRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "pk_0", "root".FIRSTNAME as "firstName", "root".AGE as "age", "root".LASTNAME as "lastName" from personTable as "root" limit 1,-1', $result2->sqlRemoveFormatting());
-   assertSize($result2.values, 11 );
+   assertEquals('select "root".ID as "pk_0", "root".FIRSTNAME as "firstName", "root".AGE as "age", "root".LASTNAME as "lastName" from personTable as "root" limit 1,2147483647', $result2->sqlRemoveFormatting());
+   assertSize($result2.values, 6 );
 }

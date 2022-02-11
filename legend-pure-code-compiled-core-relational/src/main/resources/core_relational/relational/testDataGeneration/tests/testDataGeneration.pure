@@ -1459,10 +1459,10 @@ function <<meta::pure::profiles::test.Test>> meta::relational::testDataGeneratio
 
    assertEquals( '\n'+
                  'meta::relational::testDataGeneration::createTableRowIdentifiers(meta::relational::tests::db, \'default\', \'tableWithQuotedColumns\', [\n'+
-                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [3,\'John\',\'Hill\']),\n'+
-                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [4,\'Anthony\',\'Allen\']),\n'+
+                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [1,\'Peter\',\'Smith\']),\n'+
                  '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [2,\'John\',\'Johnson\']),\n'+
-                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [1,\'Peter\',\'Smith\'])\n'+
+                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [3,\'John\',\'Hill\']),\n'+
+                 '       meta::relational::testDataGeneration::createRowIdentifier([\'ID\',\'"FIRST NAME"\',\'"LAST NAME"\'], [4,\'Anthony\',\'Allen\'])\n'+
                  '  ])\n', $seedDataString);
 }
 
@@ -1483,7 +1483,7 @@ function <<access.protected>> meta::relational::testDataGeneration::tests::initD
    executeInDb('insert into ProductTable values(3,\'ProductName3\',\'OPTION\',\'ISE\', \'SYS1\', 1, \'2015-8-26\', \'9999-12-31\');',$connection);
 
    executeInDb('drop table if exists ProductTable2;',$connection);
-   executeInDb('create table ProductTable2 (identifier Integer, key Integer , from_z DATE, thru_z DATE);',$connection);
+   executeInDb('create table ProductTable2 (identifier Integer, "key" integer , from_z DATE, thru_z DATE);',$connection);
    executeInDb('insert into ProductTable2 values(1, 1, \'2015-8-15\', \'2015-8-26\');',$connection);
    executeInDb('insert into ProductTable2 values(2, 1, \'2015-8-26\', \'2015-10-16\');',$connection);
 

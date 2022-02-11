@@ -140,10 +140,10 @@ function <<test.Test, test.ExcludeAlloy>> meta::relational::tests::milestoning::
    let query = {|Product->getAllForEachDate(Calendar.all()->filter(x|($x.calendarDate > %2020-01-02) && ($x.calendarDate < %2020-01-07)).calendarDate)->filter(x|$x.classification($x.businessDate).type == 'STOCK')->project([col(x | $x.classificationExchangeName1,'type'),col(x|$x.classification($x.businessDate).description,'description'),col(x|$x.businessDate,'date')])->distinct()->sort(['date','type'])};
    let result = execute($query,Calendarmap,^Runtime(connections=meta::relational::tests::milestoning::initDatabaseForCalendar()), meta::pure::router::extension::defaultRelationalExtensions());
    let expectedValue = 'type,description,date\n'+
-                        'LNSE,STOCK DESC-V4,2020-01-03\n'+
                         'LNSE,STOCK DESC-V1,2020-01-03\n'+
-                        'LNSE,STOCK DESC-V4,2020-01-04\n'+
-                        'LNSE,STOCK DESC-V1,2020-01-04\n';
+                        'LNSE,STOCK DESC-V4,2020-01-03\n'+
+                        'LNSE,STOCK DESC-V1,2020-01-04\n'+
+                        'LNSE,STOCK DESC-V4,2020-01-04\n';
    let actualValue = $result.values->toCSV();
    assertSameElements($expectedValue,$actualValue);
    true;
@@ -154,10 +154,10 @@ function <<test.Test, test.ExcludeAlloy>> meta::relational::tests::milestoning::
    let query = {|StockProduct->getAllForEachDate(Calendar.all()->filter(x|($x.calendarDate > %2020-01-02) && ($x.calendarDate <%2020-01-07)).calendarDate)->filter(x|$x.classification($x.businessDate).exchange.name == 'LNSE')->project([col(x | $x.classificationExchangeName1,'type'),col(x|$x.classification($x.businessDate).description,'description'),col(x|$x.businessDate,'date')])->distinct()->sort(['date','type'])};
    let result = execute($query,Calendarmap,^Runtime(connections=meta::relational::tests::milestoning::initDatabaseForCalendar()), meta::pure::router::extension::defaultRelationalExtensions());
    let expectedValue = 'type,description,date\n'+
-                        'LNSE,STOCK DESC-V4,2020-01-03\n'+
                         'LNSE,STOCK DESC-V1,2020-01-03\n'+
-                        'LNSE,STOCK DESC-V4,2020-01-04\n'+
-                        'LNSE,STOCK DESC-V1,2020-01-04\n';
+                        'LNSE,STOCK DESC-V4,2020-01-03\n'+
+                        'LNSE,STOCK DESC-V1,2020-01-04\n'+
+                        'LNSE,STOCK DESC-V4,2020-01-04\n';
    let actualValue = $result.values->toCSV();
    assertSameElements($expectedValue, $actualValue);
 }

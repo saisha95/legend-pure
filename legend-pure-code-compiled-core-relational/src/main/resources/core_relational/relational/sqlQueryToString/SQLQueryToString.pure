@@ -505,14 +505,14 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::proce
                assert($s.fromRow->isNotEmpty());
 
                let size = if ($s.toRow == [],
-                              | -1,
+                              | 2147483647,
                               |$s.toRow.value->match([
                                  i:Integer[1]| $s.toRow->toOne().value->cast(@Integer) - $s.fromRow->toOne().value->cast(@Integer) ,
                                  v:VarPlaceHolder[1]|[$s.toRow->toOne().value->cast(@VarPlaceHolder).name, $s.fromRow->toOne().value->cast(@VarPlaceHolder).name]->joinStrings('${','?number - ', '?number}')
                                  ])
                              );
 
-
+print($dbType);
                if($dbType == DatabaseType.Postgres,
                   |'%s offset %s'->format([$format.separator, $s.fromRow->toOne()->getValueForTake()]) + if ($size == -1, | '', | ' limit %s'->format($size)),
                   | if ($dbType == DatabaseType.Presto,

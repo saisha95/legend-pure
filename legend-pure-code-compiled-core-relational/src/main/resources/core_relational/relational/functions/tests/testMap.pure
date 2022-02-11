@@ -229,7 +229,7 @@ function <<test.Test>> meta::relational::tests::map::testSubAggregationMultiLeve
 
    let result2 = execute(|Firm.all().employees.age->average(), simpleRelationalMapping, testRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
    assertSize($result2.values, 1);
-   assertEqWithinTolerance(25.714285714285715, $result2.values->cast(@Float), 0.00000000000001);
+   assertEqWithinTolerance(25.71428571429, $result2.values->cast(@Float), 0.00000000000001);
    assertEquals('select avg(1.0 * "persontable_0".AGE) from firmTable as "root" left outer join personTable as "persontable_0" on ("root".ID = "persontable_0".FIRMID)', $result2->sqlRemoveFormatting());
 
    let result3 = execute(|Firm.all()->map(f|$f.employees.age->average()), simpleRelationalMapping, testRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
