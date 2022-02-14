@@ -33,6 +33,7 @@ import meta::relational::tests::*;
 import meta::pure::runtime::*;
 import meta::relational::runtime::*;
 import meta::relational::runtime::authentication::*;
+import meta::pure::functions::asserts::*;
 
 
 function <<test.BeforePackage>> meta::relational::tests::mapping::sqlFunction::setUp():Boolean[1]
@@ -558,7 +559,10 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stddev::po
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFloat::testProject():Boolean[1]
 {
     let result = execute(|SqlFunctionDemo.all()->project([s | $s.string2Float], ['string2Float']),  testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-    assertEquals([123.456, 100.001], $result.values->at(0).rows.values);
+    let resultValues =  $result.values->at(0).rows.values;
+    assertEqWithinTolerance(123.456, $resultValues->at(0)->cast(@Float), 0.00001);
+    assertEqWithinTolerance(100.001, $resultValues->at(1)->cast(@Float), 0.00001);
+    assertEquals($resultValues->size(), 2);
     assertEquals('select cast("root".string2float as float) as "string2Float" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
@@ -579,7 +583,9 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFl
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFloat::testFilter():Boolean[1]
 {
     let result = execute(|SqlFunctionDemo.all()->filter(s | $s.string2Float == 123.456)->project([s | $s.string2Float], ['string2Float']),  testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-    assertEquals([123.456], $result.values->at(0).rows.values);
+    let resultValues = $result.values->at(0).rows.values;
+    assertEqWithinTolerance(123.456, $resultValues->at(0)->cast(@Float), 0.00001);
+    assertEquals($resultValues->size(), 1);
     //assertEquals('select cast("root".string1 as float) as "string2Date" from testDataTable as "root" where cast("root".string1 as float) = 123.456',$result->sqlRemoveFormatting());
 }
 

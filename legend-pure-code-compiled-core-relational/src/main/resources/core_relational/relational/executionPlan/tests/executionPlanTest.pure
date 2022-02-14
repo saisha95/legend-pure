@@ -216,7 +216,7 @@ function <<test.Test>> meta::pure::executionPlan::tests::testClassPropertyOpenVa
             '      type = Class[impls=(meta::relational::tests::groupBy::datePeriods::domain::SalesCredit | myMapping.meta_relational_tests_groupBy_datePeriods_domain_SalesCredit)]\n' +
             '      resultSizeRange = *\n'+
             '      resultColumns = [("pk_0", INT), ("grossValue", DOUBLE)]\n'+
-            '      sql = select \"root\".key as \"pk_0\", \"root\".credits as \"grossValue\" from SALES_GCS as \"root\" left outer join calendar as \"calendar_0\" on (\"root\".tradeDate = \"calendar_0\".\"date\") where \"calendar_0\".\"date\" < \'${reportEndDate[\"date\"]}\'\n' +
+            '      sql = select \"root\"."key" as \"pk_0\", \"root\".credits as \"grossValue\" from SALES_GCS as \"root\" left outer join calendar as \"calendar_0\" on (\"root\".tradeDate = \"calendar_0\".\"date\") where \"calendar_0\".\"date\" < \'${reportEndDate[\"date\"]}\'\n' +
             '      connection = TestDatabaseConnection(type = \"H2\")\n' +
             '    )\n' +
             '  )\n' +
