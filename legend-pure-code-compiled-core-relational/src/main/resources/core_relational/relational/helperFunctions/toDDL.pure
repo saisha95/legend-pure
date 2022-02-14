@@ -75,12 +75,12 @@ function meta::relational::functions::toDDL::dropAndCreateSchemaInDb(schema: Str
 
 function meta::relational::functions::toDDL::createSchemaStatement(schema:String[1]) : String[1]
 {
-   'Create Schema ' + $schema + ';';
+   'Create Schema "' + $schema + '";';
 }
 
 function meta::relational::functions::toDDL::dropSchemaStatement(schema:String[1]) : String[1]
 {
-   'Drop schema if exists ' + $schema + ' cascade;';
+   'Drop schema if exists "' + $schema + '" cascade;';
 }
 
 function meta::relational::functions::toDDL::dropTableStatement(database:Database[1], tableName: String[1]) : String[1]
