@@ -1407,23 +1407,23 @@ function <<test.Test>> meta::relational::tests::functions::sqlstring::testSqlGen
 
    let result2 = toSQLString(|Interaction.all()->filter(p|$p.active)->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then \'true\' else \'false\' end = \'true\'', $result2);
+   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then 1 = 1 else 1 = 0 end = \'true\'', $result2);
 
    let result3 = toSQLString(|Interaction.all()->filter(p|$p.active == true)->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then \'true\' else \'false\' end = \'true\'', $result3);
+   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then 1 = 1 else 1 = 0 end = \'true\'', $result3);
    
    let result4 = toSQLString(|Interaction.all()->filter(p|$p.active && true)->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "id" from interactionTable as "root" where (case when "root"."active" = \'Y\' then \'true\' else \'false\' end = \'true\' and \'true\' = \'true\')', $result4); 
+   assertEquals('select "root".ID as "id" from interactionTable as "root" where (case when "root"."active" = \'Y\' then 1 = 1 else 1 = 0 end = \'true\' and \'true\' = \'true\')', $result4); 
    
    let result5 = toSQLString(|Interaction.all()->filter(p|if($p.active, |1, |0) == 1)->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when case when "root"."active" = \'Y\' then \'true\' else \'false\' end = \'true\' then 1 else 0 end = 1', $result5); 
+   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when case when "root"."active" = \'Y\' then 1 = 1 else 1 = 0 end = \'true\' then 1 else 0 end = 1', $result5); 
    
    let result6 = toSQLString(|Interaction.all()->filter(p|$p.active->in(true))->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then \'true\' else \'false\' end = \'true\'', $result6); 
+   assertEquals('select "root".ID as "id" from interactionTable as "root" where case when "root"."active" = \'Y\' then 1 = 1 else 1 = 0 end = \'true\'', $result6); 
    
    let result7 = toSQLString(|Interaction.all()->filter(p|$p.target.firstName->isEmpty())->project(col(p|$p.id, 'id')), 
                               simpleRelationalMapping, DatabaseType.SybaseIQ, meta::pure::router::extension::defaultRelationalExtensions());
