@@ -109,7 +109,7 @@ function <<test.Test>> meta::relational::tests::mapping::dataType::testSimpleTyp
     assertEquals(1.23456, $populatedRow.getFloat('numericAsFloat'));
     assertEquals(1.234d, $populatedRow.getDecimal('decimal'));
     assertEquals(1.23456d, $populatedRow.getDecimal('numeric'));
-    assertEquals(1.1d, $populatedRow.getDecimal('floatAsDecimal'));
+    assertEqWithinTolerance(1.1d, $populatedRow.getDecimal('floatAsDecimal')->toOne(), 0.000001);
 }
 
 
