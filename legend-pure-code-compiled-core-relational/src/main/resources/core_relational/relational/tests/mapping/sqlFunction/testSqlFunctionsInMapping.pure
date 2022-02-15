@@ -831,16 +831,6 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
    assertEquals([%2016-06-23, %2016-02-23], $result.values->at(0).rows.values);
 }
 
-function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateinH2UserDefinedFormat():Boolean[1]
-{
-
-   let result = execute(|SqlFunctionDemo.all()->project([s | $s.convertToDateUserDefinedFormat], ['convertToDateUserDefinedFormat']),
-                                                           testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-   println($result.values->meta::json::toJSON());
-   assertEquals('select cast( parseDateTime("root".stringUserDefinedDateFormat,\'MMMyyyy\') as date) as "convertToDateUserDefinedFormat" from dataTable as "root"',$result->sqlRemoveFormatting());
-   assertEquals([%1995-11-01, %1995-11-01], $result.values->at(0).rows.values);
-}
-
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateinMemSQL():Boolean[1]
 {
 

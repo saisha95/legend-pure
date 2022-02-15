@@ -2364,7 +2364,7 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::dateF
 
 function <<access.private>> meta::relational::functions::sqlQueryToString::dateFormatsH2():String[*]
 {
-   ['yyyy-MM-dd', 'MMMyyyy', 'yyyyMMdd'];
+   ['yyyy-MM-dd', 'yyyyMMdd'];
 }
 
 function <<access.private>> meta::relational::functions::sqlQueryToString::dateFormatsSnowFlake():String[*]
