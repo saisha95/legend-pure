@@ -927,7 +927,7 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
     let result = execute(|SqlFunctionDemo.all()->project([s | $s.convertToDateTime], ['convertToDateTime']),
                                                            testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
 
-   assertEquals([%2016-06-23T09:00:00.123000000+0000, %2016-02-23T18:00:00.134000000+0000], $result.values->at(0).rows.values);
+   assertEquals([%2016-06-23T13:00:00.123000000+0000, %2016-02-23T23:00:00.134000000+0000], $result.values->at(0).rows.values);
    assertEquals('select parseDateTime("root".stringDateTimeFormat, \'yyyy-MM-dd HH:mm:ss.SSS z\') as "convertToDateTime" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
