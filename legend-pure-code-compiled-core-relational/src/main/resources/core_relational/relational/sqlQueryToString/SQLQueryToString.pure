@@ -512,7 +512,6 @@ function <<access.private>> meta::relational::functions::sqlQueryToString::proce
                                  ])
                              );
 
-print($dbType);
                if($dbType == DatabaseType.Postgres,
                   |'%s offset %s'->format([$format.separator, $s.fromRow->toOne()->getValueForTake()]) + if ($size == -1, | '', | ' limit %s'->format($size)),
                   | if ($dbType == DatabaseType.Presto,
