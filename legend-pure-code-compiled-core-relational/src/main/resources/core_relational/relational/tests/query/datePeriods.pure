@@ -428,12 +428,12 @@ function meta::relational::tests::groupBy::datePeriods::createTablesAndFillDb():
    meta::relational::functions::toDDL::dropAndCreateTableInDb(myDB, 'SALES_GCS', $connection);
 
    
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (1, 1002, 2, 500000.0, \'2015-01-05\');', $connection);
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (2, 1002, 2, 600000.0, \'2015-01-06\');', $connection);
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (3, 1001, 1, 100000.0, \'2015-02-01\');', $connection);
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (4, 1002, 1, 200000.0, \'2015-02-07\');', $connection);
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (5, 1001, 2, 300000.0, \'2015-02-08\');', $connection);
-   executeInDb('insert into SALES_GCS (key, if_code, division_id, credits, tradeDate) values (6, 1002, 2, 100000.0, \'2015-02-24\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (1, 1002, 2, 500000.0, \'2015-01-05\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (2, 1002, 2, 600000.0, \'2015-01-06\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (3, 1001, 1, 100000.0, \'2015-02-01\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (4, 1002, 1, 200000.0, \'2015-02-07\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (5, 1001, 2, 300000.0, \'2015-02-08\');', $connection);
+   executeInDb('insert into SALES_GCS ("key", if_code, division_id, credits, tradeDate) values (6, 1002, 2, 100000.0, \'2015-02-24\');', $connection);
 
    meta::relational::functions::toDDL::dropAndCreateTableInDb(myDB, 'calendar', $connection);
 

@@ -52,7 +52,7 @@ function <<test.Test,test.ExcludeAlloy>> meta::relational::tests::tds::tabletds:
    
    assertSize($result.values.columns, 2);  
    
-   assertEquals('Oliver|Oliver,Fabrice|Fabrice,David|David,Peter|Peter,John|John,Anthony|Anthony',
+   assertEquals('Anthony|Anthony,David|David,Fabrice|Fabrice,John|John,Oliver|Oliver,Peter|Peter',
       $result.values.rows->map(r|$r.values->makeString('|'))->makeString(',')); 
    
    assertEquals('select "root".firstName as "first_name", "root".firstName as "name_again" from (select distinct "root".FIRSTNAME as firstName, "addresstable_0".NAME as address from personTable as "root" left outer join addressTable as "addresstable_0" on ("addresstable_0".ID = "root".ADDRESSID)) as "root"',

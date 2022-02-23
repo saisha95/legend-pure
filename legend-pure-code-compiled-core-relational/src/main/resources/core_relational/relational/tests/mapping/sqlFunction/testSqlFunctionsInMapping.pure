@@ -33,6 +33,7 @@ import meta::relational::tests::*;
 import meta::pure::runtime::*;
 import meta::relational::runtime::*;
 import meta::relational::runtime::authentication::*;
+import meta::pure::functions::asserts::*;
 
 
 function <<test.BeforePackage>> meta::relational::tests::mapping::sqlFunction::setUp():Boolean[1]
@@ -41,8 +42,8 @@ function <<test.BeforePackage>> meta::relational::tests::mapping::sqlFunction::s
 
     dropAndCreateTableInDb(myDB, 'dataTable', $connection);
 
-    executeInDb('insert into dataTable (int1, string1, string2, string3, dateTime, float1,string2float,string2Decimal,string2date,stringDateFormat,stringDateTimeFormat,stringUserDefinedDateFormat, stringToInt, alphaNumericString ) values (1, \'Joe\', \' Bloggs \', 10, \'2003-07-19 00:00:00\', 1.1,\'123.456\',\'123.450021\', \'2016-06-23 00:00:00.123\',\'2016-06-23\',\'2016-06-23 13:00:00.123\', \'NOV1995\', \'33\', \'loremipsum33\' )', $connection);
-    executeInDb('insert into dataTable (int1, string1, string2, string3, dateTime, float1,string2float,string2Decimal,string2date,stringDateFormat,stringDateTimeFormat,stringUserDefinedDateFormat, stringToInt, alphaNumericString ) values (2, \'Mrs\', \'Smith\', 11, \'2003-07-20 00:00:00\', 1.8,\'100.001\', \'0100.009\',\'2016-06-23 00:00:00.345\',\'2016-02-23\',\'2016-02-23 23:00:00.1345\', \'NOV1995\', \'42\', \'lorem42ipsum\')', $connection);
+    executeInDb('insert into dataTable (int1, string1, string2, string3, dateTime, float1,string2float,string2Decimal,string2date,stringDateFormat,stringDateTimeFormat,stringUserDefinedDateFormat, stringToInt, alphaNumericString ) values (1, \'Joe\', \' Bloggs \', 10, \'2003-07-19 00:00:00\', 1.1,\'123.456\',\'123.450021\', \'2016-06-23 00:00:00.123 GMT\',\'2016-06-23\',\'2016-06-23 13:00:00.123 GMT\', \'NOV1995\', \'33\', \'loremipsum33\' )', $connection);
+    executeInDb('insert into dataTable (int1, string1, string2, string3, dateTime, float1,string2float,string2Decimal,string2date,stringDateFormat,stringDateTimeFormat,stringUserDefinedDateFormat, stringToInt, alphaNumericString ) values (2, \'Mrs\', \'Smith\', 11, \'2003-07-20 00:00:00\', 1.8,\'100.001\', \'0100.009\',\'2016-06-23 00:00:00.345 GMT\',\'2016-02-23\',\'2016-02-23 23:00:00.134 GMT\', \'NOV1995\', \'42\', \'lorem42ipsum\')', $connection);
     true;
 }
 
@@ -558,7 +559,10 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stddev::po
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFloat::testProject():Boolean[1]
 {
     let result = execute(|SqlFunctionDemo.all()->project([s | $s.string2Float], ['string2Float']),  testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-    assertEquals([123.456, 100.001], $result.values->at(0).rows.values);
+    let resultValues =  $result.values->at(0).rows.values;
+    assertEqWithinTolerance(123.456, $resultValues->at(0)->cast(@Float), 0.00001);
+    assertEqWithinTolerance(100.001, $resultValues->at(1)->cast(@Float), 0.00001);
+    assertEquals($resultValues->size(), 2);
     assertEquals('select cast("root".string2float as float) as "string2Float" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
@@ -579,7 +583,9 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFl
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToFloat::testFilter():Boolean[1]
 {
     let result = execute(|SqlFunctionDemo.all()->filter(s | $s.string2Float == 123.456)->project([s | $s.string2Float], ['string2Float']),  testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-    assertEquals([123.456], $result.values->at(0).rows.values);
+    let resultValues = $result.values->at(0).rows.values;
+    assertEqWithinTolerance(123.456, $resultValues->at(0)->cast(@Float), 0.00001);
+    assertEquals($resultValues->size(), 1);
     //assertEquals('select cast("root".string1 as float) as "string2Date" from testDataTable as "root" where cast("root".string1 as float) = 123.456',$result->sqlRemoveFormatting());
 }
 
@@ -640,7 +646,7 @@ function <<test.Test>> {serverVersion.start='v1_20_0'} meta::relational::tests::
                                                 testMapping,
                                                 testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
    assertEquals([123.450021D, 100.009D], $result.values->at(0).rows.values);
-   assertEquals('select cast("root".string2Decimal as decimal) as "parseDecimal" from dataTable as "root"',$result->sqlRemoveFormatting());
+   assertEquals('select cast("root".string2Decimal as NUMERIC(20,10)) as "parseDecimal" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
 function <<test.Test>> {serverVersion.start='v1_20_0'} meta::relational::tests::mapping::sqlFunction::parseDecimal::testToSQLStringParseDecimalSQLCompilationinH2():Boolean[1]
@@ -649,7 +655,7 @@ function <<test.Test>> {serverVersion.start='v1_20_0'} meta::relational::tests::
                                                 testMapping,
                                                 testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
    assertEquals([123.450021D, 100.009D], $result.values->at(0).rows.values);
-   assertEquals('select cast(trim("root".string2Decimal) as decimal) as "parseDecimal" from dataTable as "root"',$result->sqlRemoveFormatting());
+   assertEquals('select cast(trim("root".string2Decimal) as NUMERIC(20,10)) as "parseDecimal" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::parseInteger::testToSQLStringParseIntegerinIQ():Boolean[1]
@@ -825,16 +831,6 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
    assertEquals([%2016-06-23, %2016-02-23], $result.values->at(0).rows.values);
 }
 
-function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateinH2UserDefinedFormat():Boolean[1]
-{
-
-   let result = execute(|SqlFunctionDemo.all()->project([s | $s.convertToDateUserDefinedFormat], ['convertToDateUserDefinedFormat']),
-                                                           testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
-   println($result.values->meta::json::toJSON());
-   assertEquals('select cast( parseDateTime("root".stringUserDefinedDateFormat,\'MMMyyyy\') as date) as "convertToDateUserDefinedFormat" from dataTable as "root"',$result->sqlRemoveFormatting());
-   assertEquals([%1995-11-01, %1995-11-01], $result.values->at(0).rows.values);
-}
-
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateinMemSQL():Boolean[1]
 {
 
@@ -931,8 +927,8 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
     let result = execute(|SqlFunctionDemo.all()->project([s | $s.convertToDateTime], ['convertToDateTime']),
                                                            testMapping, testDataTypeMappingRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
 
-   assertEquals([%2016-06-23T15:03:00.000000000+0000, %2016-02-24T21:25:00.000000000+0000], $result.values->at(0).rows.values);
-   assertEquals('select parseDateTime("root".stringDateTimeFormat,\'yyyy-MM-dd hh:mm:ss.mmm\') as "convertToDateTime" from dataTable as "root"',$result->sqlRemoveFormatting());
+   assertEquals([%2016-06-23T13:00:00.123000000+0000, %2016-02-23T23:00:00.134000000+0000], $result.values->at(0).rows.values);
+   assertEquals('select parseDateTime("root".stringDateTimeFormat, \'yyyy-MM-dd HH:mm:ss.SSS z\') as "convertToDateTime" from dataTable as "root"',$result->sqlRemoveFormatting());
 }
 
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateTimeinDb2():Boolean[1]
@@ -940,7 +936,7 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
    let s = toSQLString(|SqlFunctionDemo.all()->project([s | $s.convertToDateTime], ['convertToDateTime']),
                                                 testMapping,
                                                 meta::relational::runtime::DatabaseType.DB2, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select timestamp_format("root".stringDateTimeFormat,\'yyyy-MM-dd hh:mm:ss.mmm\') as "convertToDateTime" from dataTable as "root"',$s);
+   assertEquals('select timestamp_format("root".stringDateTimeFormat,\'yyyy-MM-dd HH:mm:ss.SSS z\') as "convertToDateTime" from dataTable as "root"',$s);
 }
 
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateTimeinPresto():Boolean[1]
@@ -948,7 +944,7 @@ function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDa
    let s = toSQLString(|SqlFunctionDemo.all()->project([s | $s.convertToDateTime], ['convertToDateTime']),
                                                 testMapping,
                                                 meta::relational::runtime::DatabaseType.Presto, meta::pure::router::extension::defaultRelationalExtensions());
-   assertEquals('select date_parse("root".stringDateTimeFormat,\'yyyy-MM-dd hh:mm:ss.mmm\') as "convertToDateTime" from dataTable as "root"',$s);
+   assertEquals('select date_parse("root".stringDateTimeFormat,\'yyyy-MM-dd HH:mm:ss.SSS z\') as "convertToDateTime" from dataTable as "root"',$s);
 }
 
 function <<test.Test>> meta::relational::tests::mapping::sqlFunction::stringToDate::testToSQLStringconvertToDateTimeinIQ():Boolean[1]
@@ -1206,7 +1202,7 @@ Database meta::relational::tests::mapping::sqlFunction::model::store::myDB
         stringDateTimeFormat VARCHAR(32),
         dateTime TIMESTAMP,
         float1 Float,
-        stringUserDefinedDateFormat VARCHAR(7),
+        stringUserDefinedDateFormat VARCHAR(20),
         stringToInt VARCHAR(5),
         alphaNumericString VARCHAR(15)
     )
@@ -1258,7 +1254,7 @@ Mapping meta::relational::tests::mapping::sqlFunction::model::mapping::testMappi
           convertToDateUserDefinedFormat2: convertDate(stringUserDefinedDateFormat,'YYYY/MM/DD'),
           convertToDateUserDefinedFormat1: convertDate(stringUserDefinedDateFormat,'MMMYYYY'),
           convertToDateUserDefinedFormat: convertDate(stringUserDefinedDateFormat,'MMMyyyy'),
-          convertToDateTime: convertDateTime(stringDateTimeFormat,'yyyy-MM-dd hh:mm:ss.mmm'),
+          convertToDateTime: convertDateTime(stringDateTimeFormat,'yyyy-MM-dd HH:mm:ss.SSS z'),
           convertToDateTimeUserDefinedFormat: convertDateTime(stringDateTimeFormat,'YYYY-MM-DDTHH:MI:SS'),
           convertToDateTimeUserDefinedFormat1: convertDateTime(stringDateTimeFormat,'YYYY-MM-DDTHH:MI:SS.FF'),
           replaceResult: replace(string1, 'J', 'P'),

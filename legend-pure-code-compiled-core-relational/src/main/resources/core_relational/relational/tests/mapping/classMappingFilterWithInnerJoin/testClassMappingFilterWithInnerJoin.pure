@@ -198,18 +198,18 @@ function <<test.Test>> meta::relational::tests::mapping::classMappingFilterWithI
    let result = execute(|Person.all()->project([p | $p.age, p | $p.lastName, p | $p.extraInformation], ['age', 'lastName', 'extraInfo'])->distinct(), mappingWithInnerJoinInFilterEdgeCases, testRuntime(), meta::pure::router::extension::defaultRelationalExtensions());
 
    let expected = 'age,lastName,extraInfo\n'+
-                  '12,Hill,Firm X\n' +
-                  '22,Allen,Firm X\n'+
-                  '23,Allen,Firm X\n'+
-                  '22,Johnson,Firm X\n'+
-                  '23,Johnson,Firm X\n'+
                   '12,Allen,Firm X\n'+
-                  '22,Smith,Firm X\n'+
-                  '23,Smith,Firm X\n'+
-                  '22,Hill,Firm X\n'+
-                  '23,Hill,Firm X\n'+
+                  '12,Hill,Firm X\n' +
                   '12,Johnson,Firm X\n'+
-                  '12,Smith,Firm X\n';
+                  '12,Smith,Firm X\n'+
+                  '22,Allen,Firm X\n'+
+                  '22,Hill,Firm X\n'+
+                  '22,Johnson,Firm X\n'+
+                  '22,Smith,Firm X\n'+
+                  '23,Allen,Firm X\n'+
+                  '23,Hill,Firm X\n'+
+                  '23,Johnson,Firm X\n'+
+                  '23,Smith,Firm X\n';
    assertEquals($expected, $result.values->toCSV());
 
    assertEquals('select distinct "root".AGE as "age", "firmtable_1".LASTNAME as "lastName", "persontable_2".LEGALNAME as "extraInfo" from (select "root".ID as ID, "root".FIRSTNAME as FIRSTNAME, "root".LASTNAME as LASTNAME, "root".AGE as AGE, "root".ADDRESSID as ADDRESSID, "root".FIRMID as FIRMID, "root".MANAGERID as MANAGERID from personTable as "root" inner join firmTable as "firmtable_0" on ("firmtable_0".ID = "root".FIRMID) where "firmtable_0".LEGALNAME = \'Firm X\') as "root" left outer join (select "firmtable_0".ID as ID, "persontable_1".LASTNAME as LASTNAME from firmTable as "firmtable_0" inner join personTable as "persontable_1" on ("firmtable_0".ID = "persontable_1".FIRMID)) as "firmtable_1" on ("firmtable_1".ID = "root".FIRMID) left outer join firmTable as "firmtable_2" on ("firmtable_2".ID = "root".FIRMID) left outer join (select "persontable_1".FIRMID as FIRMID, "firmtable_3".LEGALNAME as LEGALNAME from personTable as "persontable_1" inner join firmTable as "firmtable_3" on ("firmtable_3".ID = "persontable_1".FIRMID)) as "persontable_2" on ("firmtable_2".ID = "persontable_2".FIRMID)', $result->sqlRemoveFormatting());

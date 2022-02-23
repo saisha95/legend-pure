@@ -75,12 +75,12 @@ function meta::relational::functions::toDDL::dropAndCreateSchemaInDb(schema: Str
 
 function meta::relational::functions::toDDL::createSchemaStatement(schema:String[1]) : String[1]
 {
-   'Create Schema ' + $schema + ';';
+   'Create Schema ' + if($schema == 'default', |'"default"', |$schema) + ';';
 }
 
 function meta::relational::functions::toDDL::dropSchemaStatement(schema:String[1]) : String[1]
 {
-   'Drop schema if exists ' + $schema + ' cascade;';
+   'Drop schema if exists ' + if($schema == 'default', |'"default"', |$schema) + ' cascade;';
 }
 
 function meta::relational::functions::toDDL::dropTableStatement(database:Database[1], tableName: String[1]) : String[1]
@@ -127,7 +127,7 @@ function <<access.private>> meta::relational::functions::toDDL::createTableState
       + $t.columns->cast(@meta::relational::metamodel::Column)
          ->map(c | $c.name->meta::relational::functions::sqlQueryToString::processColumnName($dbConfig) + ' ' + meta::relational::functions::toDDL::getColumnTypeSqlText($c.type, $dbConfig.dbType) + if($c.nullable->isEmpty() || $applyConstraints == false, | '', | if($c.nullable == true , | ' NULL', | ' NOT NULL' )))
         ->joinStrings(',')
-      + if ($t.primaryKey->isEmpty() || $applyConstraints == false, | '', | ', PRIMARY KEY(' + $t.primaryKey->map(c | $c.name)->joinStrings(',') + ')')
+      + if ($t.primaryKey->isEmpty() || $applyConstraints == false, | '', | ', PRIMARY KEY(' + $t.primaryKey->map(c | $c.name->meta::relational::functions::sqlQueryToString::processColumnName($dbConfig))->joinStrings(',') + ')')
       +');';
 }
 
