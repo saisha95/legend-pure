@@ -42,7 +42,7 @@ public class TestDatabaseConnect extends PerThreadPoolableConnectionProvider
         @Override
         public String value()
         {
-            return System.getProperty("legend.test.h2.port") != null ? "jdbc:h2:tcp://127.0.0.1:" + System.getProperty("legend.test.h2.port") + "/mem:testDB" : "jdbc:h2:mem:;ALIAS_COLUMN_NAME=TRUE";
+            return (System.getProperty("legend.test.h2.port") != null ? "jdbc:h2:tcp://127.0.0.1:" + System.getProperty("legend.test.h2.port") + "/mem:testDB;MODE=LEGACY" : "jdbc:h2:mem:;");
         }
     };
 
